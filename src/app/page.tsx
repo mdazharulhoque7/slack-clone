@@ -1,15 +1,18 @@
 'use client';
 
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import {useAuthActions} from "@convex-dev/auth/react"
 import { Button } from "@/components/ui/button";
+import { nextjsMiddlewareRedirect } from '@convex-dev/auth/nextjs/server';
 
 
 export default function Home() {
+  const route = useRouter()
   const {signOut} = useAuthActions()
 const handleSignOut = ()=>{
-  signOut()
-  // redirect('/auth')
+  signOut().then(()=>{
+    route.push('/auth')
+  })
 
 }
   return (
