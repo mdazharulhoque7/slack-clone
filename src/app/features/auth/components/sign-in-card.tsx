@@ -62,6 +62,7 @@ export const SignInCard = ({setState}:SignInProps) => {
                     variant="outline"
                     size="lg"
                     className="w-full relative"
+                    onClick={(e)=>{signInProvider('google')}}
                     >
                         <FcGoogle className='size-5 absolute left-2.5 top-2.5'/>
                         Continue with Google
