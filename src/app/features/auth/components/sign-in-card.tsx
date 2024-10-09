@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { FaGithub } from 'react-icons/fa';
 import { SignInFlow } from '../types';
+import { useAuthActions } from "@convex-dev/auth/react";
 
 
 interface SignInProps {
@@ -16,8 +17,13 @@ interface SignInProps {
 
 
 export const SignInCard = ({setState}:SignInProps) => {
+    const {signIn} = useAuthActions()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
+
+    const signInProvider = (value: 'github' | 'google') => {
+        signIn(value);
+    }
 
     return (
         <Card className="w-full h-full p-8">
@@ -65,6 +71,7 @@ export const SignInCard = ({setState}:SignInProps) => {
                     variant="outline"
                     size="lg"
                     className="w-full relative"
+                    onClick={(e)=>{signInProvider('github')}}
                     >
                         <FaGithub className='size-5 absolute left-2.5 top-2.5'/>
                         Continue with Github
