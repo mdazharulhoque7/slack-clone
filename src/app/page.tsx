@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import {useAuthActions} from "@convex-dev/auth/react"
 import { Button } from "@/components/ui/button";
 import { nextjsMiddlewareRedirect } from '@convex-dev/auth/nextjs/server';
+import { UserButton } from './features/auth/components/user-button';
 
 
 export default function Home() {
@@ -20,10 +21,7 @@ const handleSignOut = ()=>{
         <p>
         You are logged in!
       </p>
-      <Button variant={"destructive"} onClick={()=>handleSignOut()}
-      >
-        Sign Out
-        </Button>
+      <UserButton/>
     </div>
   );
 }
