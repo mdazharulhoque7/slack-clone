@@ -25,6 +25,7 @@ export const SignUpCard = ({setState}:SignUpProps) => {
     const [pending, setPending] = useState(false);
     const [error, setError] = useState("");
     const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("")
     const [confirmpassword, setConfirmPassword] = useState("")
 
@@ -36,7 +37,7 @@ export const SignUpCard = ({setState}:SignUpProps) => {
             return;
         }
         setPending(true);
-        signIn('password', {email, password, flow:'signUp'})
+        signIn('password', {name, email, password, flow:'signUp'})
             .catch((e)=>{
                 console.log(e);
                 setError("Something went wrong !")
@@ -74,6 +75,14 @@ export const SignUpCard = ({setState}:SignUpProps) => {
                 <form className="space-y-2.5" onSubmit={onPasswordSubmit}>
                     <Input
                     disabled={pending}
+                    value={name}
+                    onChange={(e)=>{setName(e.target.value)}}
+                    placeholder="Full Name"
+                    type="text"
+                    required
+                    />
+                    <Input
+                    disabled={pending}
                     value={email}
                     onChange={(e)=>{setEmail(e.target.value)}}
                     placeholder="Email"
@@ -85,7 +94,7 @@ export const SignUpCard = ({setState}:SignUpProps) => {
                     value={password}
                     onChange={(e)=>{setPassword(e.target.value)}}                    
                     placeholder="Password"
-                    // type="password"
+                    type="password"
                     required
                     />
                     <Input
@@ -93,7 +102,7 @@ export const SignUpCard = ({setState}:SignUpProps) => {
                     value={confirmpassword}
                     onChange={(e)=>{setConfirmPassword(e.target.value)}}
                     placeholder="Confirm Password"
-                    // type="password"
+                    type="password"
                     required
                     />
                     <Button className="w-full" size="lg" disabled={pending}>
