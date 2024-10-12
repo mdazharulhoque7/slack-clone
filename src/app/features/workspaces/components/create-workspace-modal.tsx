@@ -7,6 +7,7 @@ import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 export const CreateWorkspaceModal = () => {
@@ -21,10 +22,11 @@ export const CreateWorkspaceModal = () => {
         // TODO: Clear Form
     }
 
-    const handleForm = async (e: React.FormEvent<HTMLFormElement>) => { 
+    const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         mutate({ name: name }, {
             onSuccess(id) {
+                toast.success("Workspace created.")
                 router.push(`/workspace/${id}`)
                 handleClose()
             },
@@ -40,7 +42,7 @@ export const CreateWorkspaceModal = () => {
                 <form action="" className="space-y-4" onSubmit={handleForm}>
                     <Input
                         value={name}
-                        onChange={(e)=>setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                         disabled={isPending}
                         required
                         autoFocus
