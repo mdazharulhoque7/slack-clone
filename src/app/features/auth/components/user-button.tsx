@@ -40,14 +40,14 @@ export const UserButton = () => {
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger className="outline-none relative">
-                <Avatar className="size-10">
+                <Avatar className="size-9">
                     <AvatarImage alt={name} src={image} />
                     <AvatarFallback className="bg-[#5c3b58] text-white">
                         {avaterFallback}
                     </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" side="right" className="w-60">
+            <DropdownMenuContent align="center" side="right" className="ml-1 w-60">
                 <DropdownMenuItem onClick={() => handleSignOut()} className="h-10">
                     <LogOut className="size-4 mr-2" />
                     Log out

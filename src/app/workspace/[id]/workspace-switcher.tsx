@@ -20,9 +20,9 @@ const WorkspaceSwitcher = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Button className="size-9 relative overflow-hidden bg-[#ababad] hover:bg-[#ababad]/80 text-slate-800 font-semibold text-xl">
+                <Button className="size-8 relative overflow-hidden bg-[#ababad] hover:bg-[#ababad]/80 text-slate-800 font-semibold text-xl">
                     {isWorkspaceLoading ? (
-                        <Loader className="size-5 animate-spin shrink-0" />
+                        <Loader className="size-4 animate-spin shrink-0" />
                     ) : (
                         workspace?.name.charAt(0).toUpperCase())}
                 </Button>
@@ -43,7 +43,7 @@ const WorkspaceSwitcher = () => {
                         onClick={() => router.push(`/workspace/${workspace._id}`)}
                         className="cursor-pointer capitalize overflow-hidden truncate"
                     >
-                        <div className="size-9 relative overflow-hidden bg-[#616061] text-white font-semibold rounded-md flex items-center justify-center mr-2">
+                        <div className="size-8 relative overflow-hidden bg-[#616061] text-white font-semibold rounded-md flex items-center justify-center mr-2">
                             {workspace.name.charAt(0).toLocaleUpperCase()}
                         </div>
                         <p className="truncate">
@@ -55,7 +55,7 @@ const WorkspaceSwitcher = () => {
                     className="cursor-pointer"
                     onClick={() => setOpen(true)}
                 >
-                    <div className="size-9 relative overflow-hidden bg-[#f2f2f2] text-slate-800 font-semibold rounded-md flex items-center justify-center mr-2">
+                    <div className="size-8 relative overflow-hidden bg-[#f2f2f2] text-slate-800 font-semibold rounded-md flex items-center justify-center mr-2">
                         <Plus />
                     </div>
                     Create a new workspace
