@@ -18,6 +18,7 @@ const WorkspaceSwitcher = () => {
         (workspace) => workspace._id !== workspaceId)
 
     return (
+        <div className="flex flex-col items-center justify-center gap-y-0.5 cursor-pointer group">
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button className="size-8 relative overflow-hidden bg-[#ababad] hover:bg-[#ababad]/80 text-slate-800 font-semibold text-xl">
@@ -62,6 +63,7 @@ const WorkspaceSwitcher = () => {
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
+        </div>
     )
 }
 
