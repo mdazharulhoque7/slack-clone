@@ -3,6 +3,8 @@ import { Doc } from "../../../../convex/_generated/dataModel"
 import { Button } from "@/components/ui/button"
 import { ChevronDown, ListFilter, SquarePen } from "lucide-react"
 import { ToolTip } from "@/components/ui/custom/tooltip"
+import PreferencesModal from "./preferences-modal"
+import { useState } from "react"
 
 interface WorkspaceDetailHeaderProps{
     workspace : Doc<"workspaces">
@@ -10,7 +12,11 @@ interface WorkspaceDetailHeaderProps{
 }
 
 const WorkspaceDetailHeader = ({workspace, isAdmin}:WorkspaceDetailHeaderProps) => {
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
+
   return (
+    <>
+    <PreferencesModal open={preferencesOpen} setOpen={setPreferencesOpen} initialValue={workspace.name}></PreferencesModal>
     <div className="flex items-center justify-between px-4 h-[49px] gap-0.5">
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -47,7 +53,7 @@ const WorkspaceDetailHeader = ({workspace, isAdmin}:WorkspaceDetailHeaderProps) 
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem
                 className="cursor-pointer py-2"
-                onClick={()=>{}}
+                onClick={()=>{setPreferencesOpen(true)}}
                 >
                     Perferences
                 </DropdownMenuItem>
@@ -68,6 +74,7 @@ const WorkspaceDetailHeader = ({workspace, isAdmin}:WorkspaceDetailHeaderProps) 
             </ToolTip>
         </div>
     </div>
+    </>
   )
 }
 
