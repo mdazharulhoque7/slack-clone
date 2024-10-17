@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { TrashIcon } from "lucide-react";
 import { useUpdateWorkspace } from "@/app/features/workspaces/api/use-update-workspace";
@@ -6,7 +8,9 @@ import { useRemoveWorkspace } from "@/app/features/workspaces/api/use-remove-wor
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace_id";
-import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
+import { time } from "console";
+import { title } from "process";
 
 
 interface PreferencesModalProps {
@@ -20,11 +24,32 @@ const PreferencesModal = ({
     setOpen,
     initialValue
 }: PreferencesModalProps) => {
+    const router = useRouter()
     const workspaceId = useWorkspaceId()
     const [value, setValue] = useState(initialValue);
     const [editOpen, setEditOpen] = useState(false);
+    const [ConfirmDialog, confirm] = useConfirm("Are you sure?", "This action is irreversible.");
     const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } = useUpdateWorkspace();
     const { mutate: removeWorkspace, isPending: isRemovingWorkspace } = useRemoveWorkspace();
+
+    const handleRemove = async () => {
+        const isConfirmed = await confirm();
+        if (!isConfirmed) return;
+        removeWorkspace({
+            id: workspaceId,
+        }, {
+            onSuccess(data) {
+                toast.success("Workspace removed");
+                router.replace("/");
+            },
+            onError(error) {
+                toast.error("Failed to remove workspace")
+            },
+            onSettled() {
+
+            },
+        })
+    };
 
     const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,6 +70,8 @@ const PreferencesModal = ({
         })
     }
     return (
+        <>
+        <ConfirmDialog />
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="p-0 bg-gray-50 overflow-hidden">
                 <DialogHeader className="p-4 border-b bg-white">
@@ -97,6 +124,8 @@ const PreferencesModal = ({
                     </Dialog>
                     <button
                         className="flex gap-x-2 items-center bg-white rounded-lg border px-5 py-4 cursor-pointer hover:bg-gray-50 text-rose-600"
+                        onClick={handleRemove}
+                        disabled={isRemovingWorkspace}
                     >
                         <TrashIcon className="size-4" />
                         <p className="text-sm font-semibold">Delete workspace</p>
@@ -104,6 +133,7 @@ const PreferencesModal = ({
                 </div>
             </DialogContent>
         </Dialog>
+        </>
     )
 }
 
