@@ -4,11 +4,11 @@ import { api } from "../../../../../convex/_generated/api"
 
 
 
-interface useCurrentUserAsWorkspaceMemberProps {
+interface CurrentUserAsWorkspaceMemberProps {
     workspaceId: Id<"workspaces">
 }
 
-export const useGetCurrentUserAsWorkspaceMember = ({workspaceId}:useCurrentUserAsWorkspaceMemberProps)=>{
+export const useGetCurrentUserAsWorkspaceMember = ({workspaceId}:CurrentUserAsWorkspaceMemberProps)=>{
     const data = useQuery(api.workspaces.currentUserAsWorkspaceMember, {workspaceId});
     const isLoading = data === undefined;
     return {data, isLoading}

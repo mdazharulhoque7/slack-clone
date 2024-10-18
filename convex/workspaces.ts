@@ -35,6 +35,12 @@ export const create = mutation({
       workspaceId,
       role: "admin"
     })
+
+    // Creating default channel for the workspace
+    await ctx.db.insert("channels", {
+      name: "general",
+      workspaceId
+    })
     return workspaceId;
   },
 });
@@ -72,7 +78,7 @@ export const getById = query({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      throw Error("Unauthorized!")
+      return null
     }
     const isMemberOfWorkspace = await ctx.db.query("members")
       .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))

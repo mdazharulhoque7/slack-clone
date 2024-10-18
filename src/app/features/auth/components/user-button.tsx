@@ -32,8 +32,9 @@ export const UserButton = () => {
     const avaterFallback = name ? name.charAt(0).toUpperCase() : ''
 
     const handleSignOut = ()=>{
+        // signOut();
         signOut().then(()=>{
-          route.push('/auth')
+            route.replace(`/auth`);
         })
     }
 
