@@ -8,7 +8,7 @@ interface GetWorkspaceProps {
 
 export const useGetWorkspace = ({ id }:GetWorkspaceProps) => {
     const data = useQuery(api.workspaces.getById, { id });
-    console.log("Unauthorized:", data)
+    // console.log("Unauthorized:", data)
     const isLoading = data === undefined;
 
     return {data, isLoading};
