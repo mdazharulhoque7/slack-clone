@@ -5,6 +5,7 @@ import { HashIcon, Loader, MessageSquareText, SendHorizonal, Triangle } from 'lu
 import WorkspaceDetailHeader from './workspace-detail-header';
 import SidebarDetailItem from './sidebar-detail-item';
 import { useGetCurrentWorkspaceChannels } from '@/app/features/workspaces/api/use-current-workspace-channels';
+import WorkspaceSection from './wrokspace-section';
 
 const WorkspaceDetailSidebar = () => {
   const workspaceId = useWorkspaceId();
@@ -12,14 +13,14 @@ const WorkspaceDetailSidebar = () => {
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: channelLoading } = useGetCurrentWorkspaceChannels({ workspaceId });
 
-  if(workspaceLoading || memberLoading){
+  if (workspaceLoading || memberLoading) {
     return (
       <div className="flex flex-col bg-[#5e2c5f] h-full items-center justify-center">
         <Loader className='size-5 animate-spin text-white' />
       </div>
     )
   }
-  if(!workspace || !memberData){
+  if (!workspace || !memberData) {
     return (
       <div className="flex flex-col bg-[#5e2c5f] h-full items-center justify-center">
         <Triangle className='size-5 text-white' />
@@ -35,16 +36,22 @@ const WorkspaceDetailSidebar = () => {
       <div className="flex flex-col px-2 mt-2">
         <SidebarDetailItem label='Threads' icon={MessageSquareText} id="threads" />
         <SidebarDetailItem label='Drafts & sent' icon={SendHorizonal} id="drafts" />
-        {channels?.map((item) => (
-          <SidebarDetailItem
-            label={item.name}
-            icon={HashIcon}
-            id={item._id}
-            key={item._id}
-          />
-        ))}
+        <WorkspaceSection
+          label='Channels'
+          hint='New channel'
+          onNew={() => { }}
+        >
+          {channels?.map((item) => (
+            <SidebarDetailItem
+              label={item.name}
+              icon={HashIcon}
+              id={item._id}
+              key={item._id}
+            />
+          ))}
+        </WorkspaceSection>
       </div>
-      </div>
+    </div>
   )
 }
 
