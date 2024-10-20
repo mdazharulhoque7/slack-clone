@@ -9,7 +9,7 @@ interface CurrentWorkspaceMemberProps {
 }
 
 export const useGetCurrentWorkspaceMembers = ({workspaceId}:CurrentWorkspaceMemberProps)=>{
-    const data = useQuery(api.workspaces.workspaceMembers, {workspaceId});
+    const data = useQuery(api.members.get, {workspaceId});
     const isLoading = data === undefined;
     return {data, isLoading}
 }

@@ -15,7 +15,7 @@ export default function Home() {
   const [open, setOpen] = useCreateWorkspaceModal()
   const { data, isLoading } = useGetWorkspaces();
   const workspaceId = useMemo(() => data?.[0]?._id, [data]);
-  // console.log('Workspace ID: ', workspaceId)
+
 
   useEffect(() => {
     if (!currentUser) { 

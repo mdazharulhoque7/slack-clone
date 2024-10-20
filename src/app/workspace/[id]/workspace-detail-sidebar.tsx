@@ -6,12 +6,15 @@ import WorkspaceDetailHeader from './workspace-detail-header';
 import SidebarDetailItem from './sidebar-detail-item';
 import { useGetCurrentWorkspaceChannels } from '@/app/features/workspaces/api/use-current-workspace-channels';
 import WorkspaceSection from './wrokspace-section';
+import { useGetCurrentWorkspaceMembers } from '@/app/features/workspaces/api/use-current-workspace-members';
+import WorkspaceMemberItem from './wrokspace-members-item';
 
 const WorkspaceDetailSidebar = () => {
   const workspaceId = useWorkspaceId();
   const { data: memberData, isLoading: memberLoading } = useGetCurrentUserAsWorkspaceMember({ workspaceId });
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: channelLoading } = useGetCurrentWorkspaceChannels({ workspaceId });
+  const { data: members, isLoading: membersLoading } = useGetCurrentWorkspaceMembers({ workspaceId });
 
   if (workspaceLoading || memberLoading) {
     return (
@@ -50,6 +53,14 @@ const WorkspaceDetailSidebar = () => {
             />
           ))}
         </WorkspaceSection>
+        {members?.map((item)=>(
+          <WorkspaceMemberItem
+            key={item._id}
+            id={item._id}
+            label={item.user.name}
+            image={item.user.image}
+           />
+        ))}
       </div>
     </div>
   )

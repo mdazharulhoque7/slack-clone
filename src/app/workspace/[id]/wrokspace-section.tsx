@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ToolTip } from "@/components/ui/custom/tooltip";
+import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import { FaCaretDown } from "react-icons/fa";
 import { useToggle } from 'react-use';
@@ -25,7 +26,10 @@ const WorkspaceSection = ({
                   variant="transparent"
                   className="text-sm text-[#f9edffcc] shrink-0 size-6 p-0.5"
               >
-                  <FaCaretDown className="size-4" />
+                  <FaCaretDown className={cn(
+                    "size-4 transition-transform",
+                    on && "-rotate-90"
+                  )} />
               </Button>
               <Button
                   variant="transparent"
