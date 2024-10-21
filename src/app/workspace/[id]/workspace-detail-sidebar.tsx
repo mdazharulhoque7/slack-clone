@@ -8,6 +8,7 @@ import { useGetCurrentWorkspaceChannels } from '@/app/features/workspaces/api/us
 import WorkspaceSection from './wrokspace-section';
 import { useGetCurrentWorkspaceMembers } from '@/app/features/workspaces/api/use-current-workspace-members';
 import WorkspaceMemberItem from './wrokspace-members-item';
+import { useCreatChannelModal } from '@/app/features/channels/store/use-create-channel-modal';
 
 const WorkspaceDetailSidebar = () => {
   const workspaceId = useWorkspaceId();
@@ -15,6 +16,7 @@ const WorkspaceDetailSidebar = () => {
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: channelLoading } = useGetCurrentWorkspaceChannels({ workspaceId });
   const { data: members, isLoading: membersLoading } = useGetCurrentWorkspaceMembers({ workspaceId });
+  const [_openChannelAdd, setOpenChannelAdd] = useCreatChannelModal()
 
   if (workspaceLoading || memberLoading) {
     return (
@@ -42,7 +44,7 @@ const WorkspaceDetailSidebar = () => {
         <WorkspaceSection
           label='Channels'
           hint='New channel'
-          onNew={() => { }}
+          onNew={memberData.role === 'admin' ? () => {setOpenChannelAdd(true)}: undefined}
         >
           {channels?.map((item) => (
             <SidebarDetailItem
@@ -53,6 +55,11 @@ const WorkspaceDetailSidebar = () => {
             />
           ))}
         </WorkspaceSection>
+        <WorkspaceSection
+          label='Direct Messages'
+          hint='New direct message'
+          onNew={() => { }}
+        >
         {members?.map((item)=>(
           <WorkspaceMemberItem
             key={item._id}
@@ -61,6 +68,7 @@ const WorkspaceDetailSidebar = () => {
             image={item.user.image}
            />
         ))}
+        </WorkspaceSection>
       </div>
     </div>
   )

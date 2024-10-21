@@ -1,8 +1,7 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace_id";
 import { cn } from "@/lib/utils";
-import { AvatarFallback } from "@radix-ui/react-avatar";
 import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -45,9 +44,9 @@ const WorkspaceMemberItem = ({
     asChild
     >
         <Link href={`/workspace/${workspaceId}/member/${id}`}>
-            <Avatar className="size-5 rounded-md mr-1">
+            <Avatar className="size-5 rounded-md mr-2">
                 <AvatarImage className="rounded-md" src={image} />
-                <AvatarFallback className="rounded-md">
+                <AvatarFallback className="bg-sky-500 text-white rounded-md text-xs">
                     {label?.charAt(0).toUpperCase()}
                 </AvatarFallback>
             </Avatar>
