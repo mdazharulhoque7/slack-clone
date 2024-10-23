@@ -186,3 +186,29 @@ export const remove = mutation({
    return args.id;
   }
 });
+
+
+export const updateJoinCode = mutation({
+  args:{
+    id: v.id("workspaces")
+  },
+  handler: async(ctx, args)=>{
+    const userId = await getAuthUserId(ctx);
+    if(!userId){
+      throw Error("Unauthorized!")
+    }
+    const currentMember = await ctx.db.query("members")
+                              .withIndex("by_workspace_id_user_id", 
+                                (q)=> q.eq("workspaceId", args.id).eq("userId", userId)
+                              )
+                              .unique();
+    if(!currentMember || currentMember.role !== "admin"){
+      throw Error("Unauthorized!")
+    }
+   const joinCode = generateCode()
+   await ctx.db.patch(args.id, {
+    joinCode
+   }); 
+   return args.id;
+  }
+});

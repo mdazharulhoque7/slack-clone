@@ -32,7 +32,7 @@ export const useConfirm = (title: string, message: string): [()=>JSX.Element, ()
                 </DialogHeader>
                 <DialogFooter className="pt-2">
                     <Button variant="outline" onClick={handleCancle}>No</Button>
-                    <Button variant="destructive" onClick={handleConfirm}>Yes</Button>
+                    <Button onClick={handleConfirm}>Yes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
