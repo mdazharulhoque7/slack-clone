@@ -6,7 +6,9 @@ import {
     DialogHeader,
     DialogTitle
 } from '@/components/ui/dialog';
+import { useWorkspaceId } from '@/hooks/use-workspace_id';
 import { CopyIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface InviteModalProps {
     open: boolean;
@@ -16,6 +18,13 @@ interface InviteModalProps {
 }
 
 const InviteModal = ({ open, setOpen, workspaceName, joinCode }: InviteModalProps) => {
+    const workspaceId = useWorkspaceId();
+    const handleCapy = ()=>{
+        const inviteLink = `${window.location.origin}/join/${workspaceId}`;
+        navigator.clipboard
+        .writeText(inviteLink)
+        .then(()=> toast.success("Invite link copied to clipboard"));
+    }
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent>
@@ -29,7 +38,7 @@ const InviteModal = ({ open, setOpen, workspaceName, joinCode }: InviteModalProp
                     <p className="text-4xl font-bold tracking-widest uppercase">
                         {joinCode}
                     </p>
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" onClick={handleCapy}>
                         Copy link
                         <CopyIcon className='size-4 ml-2' />
                     </Button>
