@@ -90,6 +90,27 @@ export const getById = query({
   },
 });
 
+
+export const getPublicInfoById = query({
+  args: { id: v.id("workspaces") },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      return null
+    }
+    const isMemberOfWorkspace = await ctx.db.query("members")
+      .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
+      .unique();
+
+    const workspace = await ctx.db.get(args.id);
+
+    return {
+      name: workspace?.name,
+      isMember: !!isMemberOfWorkspace
+    }
+  },
+});
+
 export const currentUserAsWorkspaceMember = query({
   args: {workspaceId: v.id("workspaces")},
   handler: async (ctx, args)=>{
@@ -220,6 +241,7 @@ export const joinWorkspaceMember = mutation({
   },
   handler: async(ctx, args)=>{
     const userId = await getAuthUserId(ctx);
+    console.log("userId: ", userId)
     if(!userId){
       throw new Error("Unauthorized!")
     }
@@ -228,6 +250,8 @@ export const joinWorkspaceMember = mutation({
     if(!workspace){
       throw new Error("Workspace not found!");
     }
+
+
     if(workspace.joinCode !== args.joinCode.toLowerCase()){
      throw new Error("Invalid join code");
     }

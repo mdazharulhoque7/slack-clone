@@ -40,6 +40,7 @@ export const useJoinWorkspaceMember = () => {
         if (options?.throwError) {
           throw error;
         }
+        return (error as Error).message
       } finally {
         setStatus("settled");
         options?.onSettled?.();
