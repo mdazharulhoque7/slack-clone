@@ -3,6 +3,6 @@ import { atom, useAtom } from "jotai";
 
 const modelState = atom(false);
 
-export const useCreatChannelModal = () => {
+export const useCreateChannelModal = () => {
     return useAtom(modelState)
 }

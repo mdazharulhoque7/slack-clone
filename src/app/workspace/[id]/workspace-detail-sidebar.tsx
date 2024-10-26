@@ -8,15 +8,17 @@ import { useGetCurrentWorkspaceChannels } from '@/app/features/workspaces/api/us
 import WorkspaceSection from './wrokspace-section';
 import { useGetCurrentWorkspaceMembers } from '@/app/features/workspaces/api/use-current-workspace-members';
 import WorkspaceMemberItem from './wrokspace-members-item';
-import { useCreatChannelModal } from '@/app/features/channels/store/use-create-channel-modal';
+import { useCreateChannelModal } from '@/app/features/channels/store/use-create-channel-modal';
+import { useChannelId } from '@/hooks/use-channel_id';
 
 const WorkspaceDetailSidebar = () => {
   const workspaceId = useWorkspaceId();
+  const channelId = useChannelId()
   const { data: memberData, isLoading: memberLoading } = useGetCurrentUserAsWorkspaceMember({ workspaceId });
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: channelLoading } = useGetCurrentWorkspaceChannels({ workspaceId });
   const { data: members, isLoading: membersLoading } = useGetCurrentWorkspaceMembers({ workspaceId });
-  const [_openChannelAdd, setOpenChannelAdd] = useCreatChannelModal()
+  const [_openChannelAdd, setOpenChannelAdd] = useCreateChannelModal()
 
   if (workspaceLoading || memberLoading) {
     return (
@@ -52,6 +54,7 @@ const WorkspaceDetailSidebar = () => {
               icon={HashIcon}
               id={item._id}
               key={item._id}
+              variant={channelId === item._id ? "active": "default"}
             />
           ))}
         </WorkspaceSection>
