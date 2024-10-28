@@ -31,7 +31,7 @@ export const create = mutation({
         // replace any whitespaces within the name submitted by '-'
         const populatedName = args.name.replace(/\s+/g, "-").toLowerCase();
 
-        const channelId = await ctx.db.insert("channels",{
+        const channelId = await ctx.db.insert("channels", {
             name: populatedName,
             workspaceId: args.workspaceId
         })
@@ -65,3 +65,23 @@ export const get = query({
         return channels
     }
 });
+
+export const getById = query({
+    args: {
+        id: v.id("channels")
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+        if (!userId) return null;
+        const channel = await ctx.db.get(args.id);
+        if (!channel) return null;
+        const isUserMamber = await ctx.db.query("members")
+            .withIndex("by_workspace_id_user_id",
+                (q) =>
+                    q.eq("workspaceId", channel.workspaceId)
+                        .eq("userId", userId)
+            ).unique()
+        if(!isUserMamber) return null;
+        return channel;
+    }
+})

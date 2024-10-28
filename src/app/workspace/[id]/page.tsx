@@ -42,7 +42,7 @@ const WorkspaceDetailPage = () => {
     currentMemberLoading
   ])
 
-  if(workspaceLoading || channelLoading){
+  if(workspaceLoading || channelLoading || currentMemberLoading){
     return (
       <div className="h-full flex flex-1 items-center justify-center flex-col gap-2">
         <Loader 
@@ -51,7 +51,7 @@ const WorkspaceDetailPage = () => {
       </div>
     )
   }
-  if(!workspace){
+  if(!workspace || !currentMember){
     return (
       <div className="h-full flex flex-1 items-center justify-center flex-col gap-2">
         <AlertTriangle 
