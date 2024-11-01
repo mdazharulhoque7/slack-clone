@@ -2,7 +2,7 @@ import { useRef } from "react"
 import dynamic from "next/dynamic"
 import Quill from "quill"
 
-const Editor = dynamic(()=> import ("@/components/editor"),{ssr: false})
+const Editor = dynamic(()=> import ("@/components/editor/editor"),{ssr: false})
 
 interface ChatInputProps {
   placeholder: string

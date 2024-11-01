@@ -1,13 +1,14 @@
 import Quill, { type QuillOptions } from 'quill';
 import "quill/dist/quill.snow.css"
 import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { PiTextAa } from 'react-icons/pi'
 import { ImageIcon, Smile } from 'lucide-react';
 import { MdSend } from 'react-icons/md';
-import { ToolTip } from './ui/custom/tooltip';
+import { ToolTip } from '../ui/custom/tooltip';
 import { Delta, Op } from 'quill/core';
 import { cn } from '@/lib/utils';
+import EmojiPopover from './emoji-popover';
 
 
 type EditorValue = {
@@ -129,12 +130,15 @@ const Editor = ({
 
     const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
     const toggleToolbar = ()=>{
-        setToolbarVisible((value)=> !value)
-        console.log(containerRef.current);
+        setToolbarVisible((value)=> !value)    
         const toolbarElement = containerRef.current?.querySelector('.ql-toolbar');
         if(toolbarElement){
             toolbarElement.classList.toggle('hidden')
         }
+    }
+    const onEmojiSelect = (emoji: any) => { 
+        const quill = quillRef.current;
+        quill?.insertText(quill?.getSelection()?.index || 0, emoji.native)
     }
     return (
         <div className='flex flex-col'>
@@ -157,16 +161,15 @@ const Editor = ({
                             <PiTextAa className='size-4' />
                         </Button>
                     </ToolTip>
-                    <ToolTip label='Emoji'>
+                    <EmojiPopover onEmojiSelect={onEmojiSelect}>
                         <Button
                             variant="ghost"
                             size="iconSm"
                             disabled={disabled}
-                            onClick={() => { }}
                         >
                             <Smile className='size-4' />
                         </Button>
-                    </ToolTip>
+                    </EmojiPopover>
                     {variant === 'create' && (
                         <>
                             <ToolTip label='Image'>
@@ -207,7 +210,7 @@ const Editor = ({
                                 Cancel</Button>
                             <Button
                                 size="sm"
-                                disabled={disabled}
+                                disabled={disabled || isEmpty}
                                 onClick={() => { }}
                                 className=' text-white bg-[#007a5a] hover:bg-[#007a5a]/80'
                             >
@@ -216,11 +219,16 @@ const Editor = ({
                     )}
                 </div>
             </div>
-            <div className="p-2 text-[10px] text-muted-foreground flex justify-end">
-                <p>
-                    <strong>Shift + Enter</strong> to add a new line
-                </p>
-            </div>
+            {variant === 'create' && (
+                <div className={cn(
+                    "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
+                    !isEmpty && "opacity-100"
+                )}>
+                    <p>
+                        <strong>Shift + Enter</strong> to add a new line
+                    </p>
+                </div>
+            )}
         </div>
     )
 }
