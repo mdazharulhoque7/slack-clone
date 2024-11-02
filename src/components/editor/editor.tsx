@@ -84,7 +84,13 @@ const Editor = ({
                             key: "Enter",
                             handler: () => {
                                 // TODO Submit form
-                                return;
+                                const text = quill.getText();
+                                const addedImage = imageElementRef.current?.files?.[0] || null;
+                                const isEmpty = !addedImage && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+                                if(isEmpty) return;
+
+                                const body = JSON.stringify(quill.getContents())
+                                submitRef.current?.({body: body, image: addedImage})
                             }
                         },
                         shift_enter: {
@@ -133,7 +139,8 @@ const Editor = ({
         }
     }, [innerRef])
 
-    const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+    const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+    
     const toggleToolbar = () => {
         setToolbarVisible((value) => !value)
         const toolbarElement = containerRef.current?.querySelector('.ql-toolbar');
@@ -224,7 +231,12 @@ const Editor = ({
                                 variant="ghost"
                                 size="iconSm"
                                 disabled={disabled || isEmpty}
-                                onClick={() => { }}
+                                onClick={() => { 
+                                    onSubmit({
+                                        body: JSON.stringify(quillRef.current?.getContents()),
+                                        image
+                                    });
+                                }}
                                 className={
                                     cn('ml-auto',
                                         isEmpty ?
@@ -243,13 +255,18 @@ const Editor = ({
                                 variant="outline"
                                 size="sm"
                                 disabled={disabled}
-                                onClick={() => { }}
+                                onClick={onCancel}
                             >
                                 Cancel</Button>
                             <Button
                                 size="sm"
                                 disabled={disabled || isEmpty}
-                                onClick={() => { }}
+                                onClick={()=>{
+                                    onSubmit({
+                                        body: JSON.stringify(quillRef.current?.getContents()),
+                                        image
+                                    });                                    
+                                }}
                                 className=' text-white bg-[#007a5a] hover:bg-[#007a5a]/80'
                             >
                                 Save</Button>
