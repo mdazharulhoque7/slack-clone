@@ -23,7 +23,7 @@ export const create = mutation({
         image: v.optional(v.id("_storage")),
         workspaceId: v.id("workspaces"),
         channelId: v.optional(v.id("channels")),
-        parrentId: v.optional(v.id("messages"))
+        parentId: v.optional(v.id("messages"))
         // TODO: add conversationId
     },
     handler: async (ctx, args)=>{
@@ -46,7 +46,7 @@ export const create = mutation({
             image: args.image,
             workspaceId: args.workspaceId,
             channelId: args.channelId,
-            parrentId: args.parrentId,
+            parentId: args.parentId,
             updatedAt: Date.now()
         })
         return messageId;
