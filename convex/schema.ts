@@ -41,11 +41,12 @@ const schema = defineSchema({
     channelId: v.optional(v.id("channels")),
     parentId: v.optional(v.id("messages")),
     conversationId: v.optional(v.id("conversations")),
-    updatedAt: v.number(),
+    updatedAt: v.optional(v.number()),
   })
   .index("by_workspace_id", ["workspaceId"])
   .index("by_member_id", ["memberId"])
   .index("by_channel_id", ["channelId"])
+  .index("by_parent_id", ["parentId"])
   .index("by_conversation_id", ["conversationId"])
     .index("by_channel_id_parent_id_conversation_id", [
         "channelId",
