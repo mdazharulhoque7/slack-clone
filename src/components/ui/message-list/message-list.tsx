@@ -1,6 +1,12 @@
 import {differenceInMinutes, format, isToday, isYesterday} from "date-fns"
 import { GetMessagesReturnType } from "@/app/features/messages/api/use-get-messages";
 import Message from "./message";
+import ChannelHero from "./channel-hero";
+import { useState } from "react";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { useGetCurrentWorkspaceMembers } from "@/app/features/workspaces/api/use-current-workspace-members";
+import { useWorkspaceId } from "@/hooks/use-workspace_id";
+import { useGetCurrentUserAsWorkspaceMember } from "@/app/features/workspaces/api/use-current-user-as-workspace-member";
 
 interface MessageListProps {
     memberName?:string;
@@ -33,6 +39,9 @@ const MessageList = ({
     isLoadingMore,
     canLoadMore
 }:MessageListProps) => {
+    const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
+    const workspaceId = useWorkspaceId()
+    const {data: currentMember} = useGetCurrentUserAsWorkspaceMember({workspaceId:workspaceId});
 
     const groupedMessages = data?.reduce(
         (groups, message)=>{
@@ -71,16 +80,16 @@ const MessageList = ({
                     memberId={message.memberId}
                     authorName={message.user.name}
                     authorImage={message.user.image}
-                    isAuthor={false}
+                    isAuthor={message.memberId === currentMember?._id}
                     reactions={message.reactions}
                     body={message.body}
                     image={message.image}
                     updatedAt={message.updatedAt}
                     createdAt={message._creationTime}
-                    isEditing={false}
+                    isEditing={message._id === editingId}
                     isCompact={isCompact}
-                    setEditingId={()=>{}}
-                    hideThreadButton={false}
+                    setEditingId={setEditingId}
+                    hideThreadButton={variant==="thread"}
                     threadCount={message.threadCount}
                     threadImage={message.threadImage}
                     threadTimestamp={message.threadTimestamp}
@@ -89,6 +98,10 @@ const MessageList = ({
             })}
         </div>            
         ))}
+        {/* Render channel hero */}
+        {variant === 'channel' && channelName && channelCreationTime && (
+            <ChannelHero name={channelName} creationTime={channelCreationTime} />
+        )}
   </div>
   )
 }

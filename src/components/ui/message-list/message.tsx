@@ -3,6 +3,7 @@ import { format, isToday, isYesterday } from "date-fns"
 import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { ToolTip } from "../custom/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
+import Thumbnail from "./thumbnail";
 
 interface MessageProps {
     id: Id<"messages">;
@@ -71,6 +72,7 @@ const Message = (
                     </ToolTip>
                 <div className="flex flex-col w-full">
                 <Renderer value={body} />
+                <Thumbnail url={image} />
                 {updatedAt ? (
                     <span className="text-xs text-muted-foreground">
                         (edited)
@@ -106,11 +108,13 @@ const Message = (
                         </ToolTip>
                     </div>
                     <Renderer value={body} />
+                    <Thumbnail url={image} />
                     {updatedAt ? (
                         <span className="text-sm text-muted-foreground">
                                 (edited)
                         </span>
                     ) : null}
+                    
                 </div>
             </div>
         </div>
