@@ -4,6 +4,7 @@ import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { ToolTip } from "../custom/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import Thumbnail from "./thumbnail";
+import Toolbar from "./toolbar";
 
 interface MessageProps {
     id: Id<"messages">;
@@ -117,6 +118,16 @@ const Message = (
                     
                 </div>
             </div>
+            {!isEditing && (
+                <Toolbar
+                    isAuthor={isAuthor}
+                    isPending={false}
+                    hideThreadButton={ hideThreadButton}
+                    handleEdit={() => setEditingId(id)}
+                    handleThread={() => { }}
+                    handleReaction={() => { }}
+                />
+            )}
         </div>
     )
 }
