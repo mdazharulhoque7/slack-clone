@@ -8,6 +8,7 @@ interface ToolbarProps {
     isPending: boolean;
     hideThreadButton?: boolean;
     handleEdit: () => void;
+    handleDelete: () => void;
     handleThread: () => void;
     handleReaction: (value: string) => void;
 }
@@ -18,6 +19,7 @@ const Toolbar = ({
     isPending,
     hideThreadButton,
     handleEdit,
+    handleDelete,
     handleThread,
     handleReaction
 }: ToolbarProps) => {
@@ -44,6 +46,7 @@ const Toolbar = ({
                             variant="ghost"
                             size="iconSm"
                             disabled={isPending}
+                            onClick={handleThread}
                         >
                             <MessageSquareTextIcon className="size-4" />
                         </Button>
@@ -57,6 +60,7 @@ const Toolbar = ({
                                 variant="ghost"
                                 size="iconSm"
                                 disabled={isPending}
+                                onClick={handleEdit}
                             >
                                 <Pencil className="size-4" />
                             </Button>
@@ -67,6 +71,7 @@ const Toolbar = ({
                                 variant="ghost"
                                 size="iconSm"
                                 disabled={isPending}
+                                onClick={handleDelete}
                             >
                                 <Trash className="size-4" />
                             </Button>
