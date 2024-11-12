@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useRemoveMessage } from "@/app/features/messages/api/use-remove-message";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useToggleReaction } from "@/app/features/reactions/api/use-toggle-reaction";
 
 interface MessageProps {
     id: Id<"messages">;
@@ -71,6 +72,7 @@ const Message = (
         "Delete message?",
         "Are you sure you want to delete this message? This can't be undone."
     )
+    const {mutate: toggleReaction, isPending:isToggleReaction} = useToggleReaction()
 
     const isPending = isUpdatingMessage;
 
@@ -87,6 +89,17 @@ const Message = (
                 toast.error("Failed to delete message");
             }
         })
+    }
+
+    const handleReaction = (value:string)=>{
+        toggleReaction({
+            messageId:id,
+            value: value
+        },{
+            onError:()=>{
+                toast.error("Failed to send reaction!")
+            }
+        });
     }
 
     const handleUpdate = ({ body }: { body: string }) => {
@@ -138,6 +151,7 @@ const Message = (
                                         (edited)
                                     </span>
                                 ) : null}
+                                {JSON.stringify(reactions)}
                             </div>
                         )}
                     </div>
@@ -148,7 +162,7 @@ const Message = (
                             hideThreadButton={hideThreadButton}
                             handleEdit={() => setEditingId(id)}
                             handleThread={() => { }}
-                            handleReaction={() => { }}
+                            handleReaction={handleReaction}
                             handleDelete={handleRemove}
                         />
                     )}
@@ -205,6 +219,7 @@ const Message = (
                                     (edited)
                                 </span>
                             ) : null}
+                            {JSON.stringify(reactions)}
 
                         </div>
                     )}
@@ -216,7 +231,7 @@ const Message = (
                         hideThreadButton={hideThreadButton}
                         handleEdit={() => setEditingId(id)}
                         handleThread={() => { }}
-                        handleReaction={() => { }}
+                        handleReaction={handleReaction}
                         handleDelete={handleRemove}
                     />
                 )}
