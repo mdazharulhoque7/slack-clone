@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useRemoveMessage } from "@/app/features/messages/api/use-remove-message";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/app/features/reactions/api/use-toggle-reaction";
+import Reactions from "./reactions";
 
 interface MessageProps {
     id: Id<"messages">;
@@ -151,7 +152,7 @@ const Message = (
                                         (edited)
                                     </span>
                                 ) : null}
-                                {JSON.stringify(reactions)}
+                                <Reactions data={reactions} onChange={handleReaction} />
                             </div>
                         )}
                     </div>
@@ -219,7 +220,7 @@ const Message = (
                                     (edited)
                                 </span>
                             ) : null}
-                            {JSON.stringify(reactions)}
+                            <Reactions data={reactions} onChange={handleReaction} />
 
                         </div>
                     )}
