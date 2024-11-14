@@ -3,7 +3,7 @@ import { GetMessagesReturnType } from "@/app/features/messages/api/use-get-messa
 import Message from "./message";
 import ChannelHero from "./channel-hero";
 import { useState } from "react";
-import { Id } from "../../../../convex/_generated/dataModel";
+import { Id } from "../../../../../../convex/_generated/dataModel";
 import { useGetCurrentWorkspaceMembers } from "@/app/features/workspaces/api/use-current-workspace-members";
 import { useWorkspaceId } from "@/hooks/use-workspace_id";
 import { useGetCurrentUserAsWorkspaceMember } from "@/app/features/workspaces/api/use-current-user-as-workspace-member";

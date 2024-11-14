@@ -1,4 +1,4 @@
-import { Dialog, DialogTrigger,DialogContent } from "../dialog";
+import { Dialog, DialogTrigger,DialogContent } from "../../../../../components/ui/dialog";
 
 
 interface ThumbnailProps {

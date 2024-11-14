@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import { format, isToday, isYesterday } from "date-fns"
-import { Doc, Id } from "../../../../convex/_generated/dataModel";
-import { ToolTip } from "../custom/tooltip";
-import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
+import { Doc, Id } from "../../../../../../convex/_generated/dataModel";
+import { ToolTip } from "../../../../../components/ui/custom/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../../components/ui/avatar";
 import Thumbnail from "./thumbnail";
 import Toolbar from "./toolbar";
 import { useUpdateMessage } from "@/app/features/messages/api/use-update-message";
@@ -12,6 +12,7 @@ import { useRemoveMessage } from "@/app/features/messages/api/use-remove-message
 import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/app/features/reactions/api/use-toggle-reaction";
 import Reactions from "./reactions";
+import { usePanel } from "@/hooks/use-panel";
 
 interface MessageProps {
     id: Id<"messages">;
@@ -77,6 +78,8 @@ const Message = (
 
     const isPending = isUpdatingMessage;
 
+    const { parentMessageId, onOpenMessage, onClose} = usePanel()
+
     const handleRemove = async () => {
         const ok = await confirm();
         if (!ok) return;
@@ -84,6 +87,9 @@ const Message = (
             onSuccess: () => {
                 toast.success("Message deleted");
                 // Close thread if opened
+                if (parentMessageId === id) { 
+                    onClose()
+                }
 
             },
             onError: () => {
@@ -162,7 +168,7 @@ const Message = (
                             isPending={isPending}
                             hideThreadButton={hideThreadButton}
                             handleEdit={() => setEditingId(id)}
-                            handleThread={() => { }}
+                            handleThread={() => { onOpenMessage(id)}}
                             handleReaction={handleReaction}
                             handleDelete={handleRemove}
                         />
@@ -231,7 +237,7 @@ const Message = (
                         isPending={isPending}
                         hideThreadButton={hideThreadButton}
                         handleEdit={() => setEditingId(id)}
-                        handleThread={() => { }}
+                        handleThread={() => { onOpenMessage(id)}}
                         handleReaction={handleReaction}
                         handleDelete={handleRemove}
                     />

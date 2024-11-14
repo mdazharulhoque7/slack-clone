@@ -1,6 +1,6 @@
 import { MessageSquareTextIcon, Pencil, Smile, Trash } from "lucide-react";
-import { Button } from "../button";
-import { ToolTip } from "../custom/tooltip";
+import { Button } from "../../../../../components/ui/button";
+import { ToolTip } from "../../../../../components/ui/custom/tooltip";
 import EmojiPopover from "@/components/editor/emoji-popover";
 
 interface ToolbarProps {

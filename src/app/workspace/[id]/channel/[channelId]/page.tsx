@@ -6,7 +6,7 @@ import { AlertTriangle, Loader } from "lucide-react";
 import Header from "./header";
 import ChatInput from "./chat-input";
 import { useGetMessages } from "@/app/features/messages/api/use-get-messages";
-import MessageList from "@/components/ui/message-list/message-list";
+import MessageList from "@/app/features/messages/components/message-list/message-list";
 
 const ChannelPage = () => {
   const channelId = useChannelId();

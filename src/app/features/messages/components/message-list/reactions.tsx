@@ -1,8 +1,8 @@
 import { useWorkspaceId } from "@/hooks/use-workspace_id";
-import { Doc, Id } from "../../../../convex/_generated/dataModel";
+import { Doc, Id } from "../../../../../../convex/_generated/dataModel";
 import { useGetCurrentUserAsWorkspaceMember } from "@/app/features/workspaces/api/use-current-user-as-workspace-member";
 import { cn } from "@/lib/utils";
-import { ToolTip } from "../custom/tooltip";
+import { ToolTip } from "../../../../../components/ui/custom/tooltip";
 import EmojiPopover from "@/components/editor/emoji-popover";
 import { MdOutlineAddReaction } from "react-icons/md";
 
