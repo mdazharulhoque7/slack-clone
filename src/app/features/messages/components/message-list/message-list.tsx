@@ -100,11 +100,6 @@ const MessageList = ({
                 </div>
             ))}
             {/* Load More messages */}
-            <div>
-                <button onClick={loadMore}>
-                    Load more
-                </button>
-            </div>
             <div className="h-1"
                 ref={(el) => { 
                     if (el) {
