@@ -88,7 +88,7 @@ const Message = (
                 toast.success("Message deleted");
                 // Close thread if opened
                 if (parentMessageId === id) { 
-                    onClose()
+                    onClose();
                 }
 
             },
