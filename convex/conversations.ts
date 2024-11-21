@@ -9,7 +9,7 @@ export const createOrGet = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
-        if(!userId) return new Error("Unauthorized!");
+        if(!userId) throw new Error("Unauthorized!");
 
         const currentMember = await ctx.db.query("members")
                                 .withIndex("by_workspace_id_user_id", (q)=>
@@ -34,16 +34,17 @@ export const createOrGet = mutation({
                                                     ),
                                                 )
                                             ).unique()
-        if(existingConversation) return existingConversation;
+        if(existingConversation) return existingConversation._id;
 
         const conversationId = await ctx.db.insert("conversations",{
             workspaceId: args.workspaceId,
             memberOneId: currentMember._id,
             memberTwoId: otherMember._id
         })
-        const conversation = await ctx.db.get(conversationId);
-        if(!conversation) throw new Error("Conversation not found.");
-        return conversation;
+        // const conversation = await ctx.db.get(conversationId);
+        // if(!conversation) throw new Error("Conversation not found.");
+        if(!conversationId) throw new Error("Conversation not found.");
+        return conversationId;
 
     }
 })
