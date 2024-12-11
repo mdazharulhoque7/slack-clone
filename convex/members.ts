@@ -69,7 +69,7 @@ export const getById = query({
 
         return {
             ...member,
-            userId
+            user
         }
 
 

@@ -8,6 +8,7 @@ import { useGetCurrentWorkspaceMembers } from "@/app/features/workspaces/api/use
 import { useWorkspaceId } from "@/hooks/use-workspace_id";
 import { useGetCurrentUserAsWorkspaceMember } from "@/app/features/workspaces/api/use-current-user-as-workspace-member";
 import { Loader } from "lucide-react";
+import ConversationHero from "./conversation-hero";
 
 interface MessageListProps {
     memberName?: string;
@@ -129,6 +130,11 @@ const MessageList = ({
             {/* Render channel hero */}
             {variant === 'channel' && channelName && channelCreationTime && (
                 <ChannelHero name={channelName} creationTime={channelCreationTime} />
+            )}
+            
+            {/* Render conversation hero */}
+            {variant === 'conversation' && memberName && (
+                <ConversationHero name={memberName} image={memberImage} />
             )}
         </div>
     )

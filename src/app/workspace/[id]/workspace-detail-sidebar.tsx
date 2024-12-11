@@ -10,8 +10,10 @@ import { useGetCurrentWorkspaceMembers } from '@/app/features/workspaces/api/use
 import WorkspaceMemberItem from './wrokspace-members-item';
 import { useCreateChannelModal } from '@/app/features/channels/store/use-create-channel-modal';
 import { useChannelId } from '@/hooks/use-channel_id';
+import { useMemberId } from '@/hooks/use-member-id';
 
 const WorkspaceDetailSidebar = () => {
+  const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId()
   const { data: memberData, isLoading: memberLoading } = useGetCurrentUserAsWorkspaceMember({ workspaceId });
@@ -69,6 +71,7 @@ const WorkspaceDetailSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
+            variant={item._id === memberId ? "active": "default"}
            />
         ))}
         </WorkspaceSection>
