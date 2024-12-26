@@ -41,12 +41,12 @@ const TIME_THRESHOLD = 5;
 const Editor = dynamic(() => import("@/components/editor/editor"), { ssr: false })
 
 const Thread = ({ messageId, onClose }: ThreadProps) => {
+    const workspaceId = useWorkspaceId();
+    const channelId = useChannelId();
     const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
     const [editorKey, setEditorKey] = useState(0);
     const [isPending, setIsPending] = useState(false);
     const editorRef = useRef<Quill | null>(null);
-    const workspaceId = useWorkspaceId();
-    const channelId = useChannelId();
     const { mutate: generateUploadUrl } = useGenerateUploadURL()
     const { mutate: createMessage, isPending: createMessagePending } = useCreateMessage();
     const { results, status, loadMore } = useGetMessages({ channelId, parentId: messageId });
@@ -64,8 +64,6 @@ const Thread = ({ messageId, onClose }: ThreadProps) => {
                 groups[dateKey] = []
             }
             groups[dateKey].unshift(message);
-            console.log("Group Messages: ==================")
-            console.log(groups)
             return groups;
         },
         {} as Record<string, typeof results>
